@@ -3,7 +3,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.wpdrc.mapper.ProductMapper">
-	<select id="select" resultType="com.wpdrc.pojo.Product">
-		select * from tb_product
+	<select id="select" resultType="com.wpdrc.pojo.Product" parameterType="com.wpdrc.bo.Pager">
+		select a.id, a.name, a.price, a.category_id, b.name category_name from (select id, name, price, category_id from tb_product order by category_id, id asc limit #{begin}, #{end}) a left join tb_category b on a.category_id = b.id
 	</select>
+	
+	<select id="existProduct" resultType="int" parameterType="int">
+		select count(1) from tb_product where category_id = #{categoryId}
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(1) from tb_product
+	</select>
+	
+	<select id="find" resultType="com.wpdrc.pojo.Product" parameterType="int">
+		select * from tb_product where id = #{id}
+	</select>
+	
+	<insert id="add" parameterType="com.wpdrc.pojo.Product">
+		insert into tb_product(name, price, category_id) values(#{name}, #{price}, #{categoryId})
+	</insert>
+	
+	<update id="delProduct" parameterType="int">
+		delete from tb_product where id = #{id}
+	</update>
+	
+	<update id="update" parameterType="com.wpdrc.pojo.Product">
+		update tb_product set name = #{name}, price = #{price}, category_id = #{categoryId} where id = #{id}
+	</update>
 </mapper>

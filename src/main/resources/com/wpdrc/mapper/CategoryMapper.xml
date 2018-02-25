@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.wpdrc.mapper.CategoryMapper">
+	<select id="select" resultType="com.wpdrc.pojo.Category">
+		select * from tb_category order by id asc
+	</select>
+	
+	<select id="find" resultType="com.wpdrc.pojo.Category" parameterType="int">
+		select * from tb_category where id = #{id}
+	</select>
+	
+	<update id="delCategory" parameterType="int">
+		delete from tb_category where id = #{id}
+	</update>
+	
+	<update id="update" parameterType="com.wpdrc.pojo.Category">
+		update tb_category set name = #{name} where id = #{id}
+	</update>
+	
+	<insert id="add" parameterType="string">
+		insert into tb_category(name) values(#{name})
+	</insert>
+</mapper>
