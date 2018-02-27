@@ -30,4 +30,8 @@
 	<update id="update" parameterType="com.wpdrc.pojo.Product">
 		update tb_product set name = #{name}, price = #{price}, category_id = #{categoryId} where id = #{id}
 	</update>
+	
+	<select id="selectAll" resultType="com.wpdrc.pojo.Product">
+		select id, name, price, category_id from tb_product order by category_id, id asc
+	</select>
 </mapper>

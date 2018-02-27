@@ -7,6 +7,8 @@ import com.wpdrc.pojo.Product;
 
 public interface ProductMapper {
 	List<Product> select(Pager pager);
+	
+	List<Product> selectAll();
 
 	int existProduct(int categoryId);
 

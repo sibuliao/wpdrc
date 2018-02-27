@@ -49,6 +49,12 @@ public class ProductController {
 	public JsonResult find(Integer id) {
 		return JsonResult.buildSuccessJsonResult(productService.find(id));
 	}
+	
+	@RequestMapping("/listAll")
+	@ResponseBody
+	public JsonResult listAll() {
+		return JsonResult.buildSuccessJsonResult(productService.selectAll());
+	}
 
 	@RequestMapping("/add")
 	@ResponseBody

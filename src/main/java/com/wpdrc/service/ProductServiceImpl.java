@@ -49,7 +49,11 @@ public class ProductServiceImpl implements ProductService {
 
 	@Transactional
 	public void update(Product product) {
-		productMapper.update(product);		
+		productMapper.update(product);
+	}
+
+	public List<Product> selectAll() {
+		return productMapper.selectAll();
 	}
 
 }
