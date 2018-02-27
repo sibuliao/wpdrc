@@ -8,6 +8,7 @@
 	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 	crossorigin="anonymous">
+<link rel="stylesheet" href="css/jquery.spinner.css">
 <style>
 .input-group {
 	margin-bottom: 10px
@@ -74,8 +75,7 @@
 									</div>
 								</div>
 
-								<div class="input-group" id="div_product">
-								</div>
+								<div class="input-group" id="div_product"></div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default"
@@ -117,6 +117,7 @@
 		</div>
 	</div>
 	<%@ include file="footer.jsp"%>
+	<script src="js/jquery.spinner.js" type="text/javascript"></script>
 	<script>
  		function choseOrderType(obj){
  			$("#span_orderType").html($(obj).text());
@@ -136,21 +137,22 @@
  			$("#div_product").empty();
  			
  			$.each(categorys, function(index1, category){
- 				var productInfo = '';
+ 				var productInfo = '<table>';
+ 				var index = 1;
  				$.each(products, function(index2, product){
  					if(product.categoryId == category.id){
- 						productInfo += product.name + 
- 						'<div class="input-group number-spinner">'+ 
- 						'<span class="input-group-btn data-dwn">'+
- 						'<button class="btn btn-primary" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>'+
- 						'</span>'+
- 						'<input type="text" class="form-control text-center" value="0" min="0">'+
- 						'<span class="input-group-btn data-up">'+
- 						'<button class="btn btn-primary" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>'+
- 						'</span>'+
- 						'</div>';
+ 						if(index++ % 2 == 0){
+ 							productInfo += '<td><div style="float: left;">' + product.name + '(' + product.price + '元)</div><div style="float: right;"><input type="text" class="spinner" /></div></td></tr>';
+ 						}else{
+ 							productInfo += '<tr><td><div style="float: left;">' + product.name + '(' + product.price + '元)</div><div style="float: right;"><input type="text" class="spinner" /></div></td>';
+ 						}
  					}
  				});
+ 				
+ 				if(productInfo.lastIndexOf('</td>') == productInfo.length - 5){
+						productInfo += '<td>&nbsp;</td></tr>';
+				}
+ 				productInfo += '</table>'
  				
  				$("#div_product").append(
  						'<div class="panel panel-primary" style="float: left;">'+
@@ -162,6 +164,7 @@
  						'<div style="float: left;">&nbsp;</div>');
 			});
  			
+ 			$('.spinner').spinner();
  			hideShade();
  		}
  	
@@ -213,34 +216,7 @@
         		});
     	 	});
     	 	
-    	 	var action;
-    	    $(".number-spinner button").on('mousedown', function () {
-    	        btn = $(this);
-    	        input = btn.closest('.number-spinner').find('input');
-    	        btn.closest('.number-spinner').find('button').prop("disabled", false);
-
-    	    	if (btn.attr('data-dir') == 'up') {
-    	            action = setInterval(function(){
-    	                if ( input.attr('max') == undefined || parseInt(input.val()) < parseInt(input.attr('max')) ) {
-    	                    input.val(parseInt(input.val())+1);
-    	                }else{
-    	                    btn.prop("disabled", true);
-    	                    clearInterval(action);
-    	                }
-    	            }, 50);
-    	    	} else {
-    	            action = setInterval(function(){
-    	                if ( input.attr('min') == undefined || parseInt(input.val()) > parseInt(input.attr('min')) ) {
-    	                    input.val(parseInt(input.val())-1);
-    	                }else{
-    	                    btn.prop("disabled", true);
-    	                    clearInterval(action);
-    	                }
-    	            }, 50);
-    	    	}
-    	    }).on('mouseup',function(){
-    	        clearInterval(action);
-    	    });
+    	 	$('.spinner').spinner();
     	});
     </script>
 </body>
