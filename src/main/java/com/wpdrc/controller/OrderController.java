@@ -1,5 +1,8 @@
 package com.wpdrc.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,28 @@ public class OrderController {
 
 		orderService.add(order);
 		return JsonResult.buildSuccessJsonResult();
+	}
+	
+	@RequestMapping("/currList")
+	@ResponseBody
+	public JsonResult currList() {
+		return JsonResult.buildSuccessJsonResult(orderService.currList());
+	}
+	
+	@RequestMapping("/hisList")
+	@ResponseBody
+	public JsonResult hisList(Integer currPage, Integer pageSize) {
+		int total = orderService.count();
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("data", orderService.select(currPage, pageSize));
+		Integer totalPage = 0;
+		if (total % pageSize == 0) {
+			totalPage = total / pageSize;
+		} else {
+			totalPage = total / pageSize + 1;
+		}
+		data.put("totalPage", totalPage);
+		return JsonResult.buildSuccessJsonResult(data);
 	}
 
 }

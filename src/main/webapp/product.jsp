@@ -129,12 +129,15 @@
 		</div>
 		<table class="table table-striped table-bordered"
 			style="margin-top: 5px" id="tb_product">
-			<tr>
-				<th>名称</th>
-				<th>价格</th>
-				<th>所属类别</th>
-				<th>操作</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>价格</th>
+					<th>所属类别</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
 		</table>
 		<nav aria-label="Page navigation">
 			<ul id="ul_pager" class="pagination"
@@ -342,7 +345,7 @@
     					
     					$("#tb_product").find('tbody').find('tr').remove();
     					$.each(data.data.data, function(index, value){
-    						$("#tb_product").append('<tr><td>' + value.name + '</td><td>' + value.price + '</td><td>' + value.categoryName + '</td><td><a href=\'#\' onclick=\'modifyProduct(' + value.id + ')\'>修改</a>&nbsp;<a href=\'#\' onclick=\'delProduct(' + value.id + ')\'>删除</a></td></tr>');
+    						$("#tb_product").find('tbody').append('<tr><td>' + value.name + '</td><td>' + value.price + '</td><td>' + value.categoryName + '</td><td><a href=\'#\' onclick=\'modifyProduct(' + value.id + ')\'>修改</a>&nbsp;<a href=\'#\' onclick=\'delProduct(' + value.id + ')\'>删除</a></td></tr>');
     					});
     					
     				} else {

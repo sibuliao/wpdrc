@@ -1,6 +1,9 @@
 package com.wpdrc.pojo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.wpdrc.enums.OrderStatus;
 
 public class Order {
 	private Integer id;
@@ -9,6 +12,9 @@ public class Order {
 	private String remarks;
 	private String detail;
 	private Integer status;
+	private String statusStr;
+	private Date createTime;
+	private String createTimeStr;
 
 	public Integer getId() {
 		return id;
@@ -16,6 +22,10 @@ public class Order {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getStatusStr() {
+		return OrderStatus.getDescByCode(this.status);
 	}
 
 	public Date getCreateTime() {
@@ -26,6 +36,11 @@ public class Order {
 		return status;
 	}
 
+	public String getCreateTimeStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(this.createTime);
+	}
+
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
@@ -33,8 +48,6 @@ public class Order {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-
-	private Date createTime;
 
 	public String getOrderType() {
 		return orderType;

@@ -5,4 +5,16 @@
 	<insert id="add" parameterType="com.wpdrc.pojo.Order" useGeneratedKeys="true" keyProperty="id">
 		insert into tb_order(create_time, desk_num, order_type, remarks, status) values(NOW(), #{deskNum}, #{orderType}, #{remarks}, 0)
 	</insert>
+	
+	<select id="currList" resultType="com.wpdrc.pojo.Order">
+		select id, create_time, desk_num, order_type, remarks, status from tb_order where status = 0 or status = 3 order by id desc
+	</select>
+	
+	<select id="select" resultType="com.wpdrc.pojo.Order" parameterType="com.wpdrc.bo.Pager">
+		select id, create_time, desk_num, order_type, remarks, status from tb_order where status in (1,2,4) order by id desc limit #{begin}, #{end}
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(1) from tb_order where status in (1,2,4)
+	</select>
 </mapper>

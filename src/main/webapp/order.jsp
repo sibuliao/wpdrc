@@ -91,15 +91,13 @@
 					</div>
 				</div>
 
-				<table class="table table-striped table-bordered"
-					style="margin-top: 5px;" id="tb_product">
-					<tr>
-						<th>订单编号</th>
-						<th>下单时间</th>
-						<th>桌号</th>
-						<th>订单类型</th>
-						<th>操作</th>
-					</tr>
+				<table class="table table-striped table-bordered" style="margin-top: 5px;" id="tb_curr_order">
+					<thead>
+						<tr>
+							<th>订单编号</th><th>下单时间</th><th>桌号</th><th>订单类型</th><th>订单状态</th><th>备注</th><th>操作</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
 				</table>
 			</div>
 		</div>
@@ -108,21 +106,102 @@
 			<div class="panel-heading">历史订单</div>
 			<div class="panel-body">
 				<table class="table table-striped table-bordered"
-					style="margin-top: 5px;" id="tb_product">
-					<tr>
-						<th>订单编号</th>
-						<th>下单时间</th>
-						<th>桌号</th>
-						<th>订单类型</th>
-						<th>操作</th>
-					</tr>
+					style="margin-top: 5px;" id="tb_his_order">
+					<thead>
+						<tr>
+							<th>订单编号</th><th>下单时间</th><th>桌号</th><th>订单类型</th><th>订单状态</th><th>备注</th><th>操作</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
 				</table>
+				<nav aria-label="Page navigation">
+					<ul id="ul_pager" class="pagination" style="margin: -5px 0; display: none">
+					</ul>
+				</nav>
 			</div>
 		</div>
 	</div>
 	<%@ include file="footer.jsp"%>
 	<script src="js/jquery.spinner.js" type="text/javascript"></script>
 	<script>
+		var currPage = 1;
+		var pageSize = 15;
+		var startPage = 1;
+		var endPage = 10;
+		var totalPage = 0;
+		
+		function goPager(targetPage){
+ 			if(targetPage>=1&&targetPage<=totalPage){
+ 				currPage = targetPage;
+ 				loadData();
+ 			}else if(targetPage == 1 && totalPage == 0){
+ 				currPage = 1;
+ 				loadData();
+ 			}
+ 		}
+		
+		function loadHisData(){
+			showShade();
+			$.ajax({
+				url: '<%=request.getContextPath()%>/order/hisList.do?currPage=' + currPage + '&pageSize=' + pageSize,
+				async: true,
+				cache: false,
+				type: 'get',
+				success: function(data){
+					if (data.status == 0) {
+						totalPage=data.data.totalPage;
+						if(data.data.totalPage < endPage){
+							endPage = data.data.totalPage;
+						}
+						if(currPage > endPage){
+							startPage = currPage;
+							
+							if(startPage + 9 > data.data.totalPage) {
+								endPage = data.data.totalPage;
+							} else {
+								endPage = startPage + 9;
+							}
+						}
+						
+						if(data.data.totalPage>0){
+							$("#ul_pager").find('li').remove();
+							$("#ul_pager").append('<li><a href="#" aria-label="Previous" onclick="goPager(' + (currPage-1) + ')"><span aria-hidden="true">&laquo;</span></a></li>');
+	    					
+							for(var i=startPage;i<=endPage;i++){
+								if(currPage == i){
+									$("#ul_pager").append('<li class=\'active\'><a href="#">' + i + '</a></li>');
+								}else{
+									$("#ul_pager").append('<li><a href="#" onclick="goPager(' + i + ')">' + i + '</a></li>');
+								}
+								
+							}
+							
+							$("#ul_pager").append('<li><a href="#" aria-label="Next" onclick="goPager(' + (currPage+1) + ')"><span aria-hidden="true">&raquo;</span></a></li>');
+							$("#ul_pager").show();
+						}else{
+							$("#ul_pager").hide();
+						}
+						
+						$("#tb_his_order").find('tbody').find('tr').remove();
+						var content = '';
+						$.each(data.data.data, function(index, value){
+							content += content += '<tr><td>' + value.id + '</td><td>' + value.createTimeStr + '</td><td>' + (value.deskNum == null?'':value.deskNum) + '</td><td>' + value.orderType + '</td><td>'+value.statusStr+'</td><td>'+value.remarks+'</td><td><a href="#">查看</a></td>';
+						});
+						$("#tb_his_order").find('tbody').append(content);
+					} else {
+						alert('查询失败');
+					}
+					
+					hideShade();
+				},
+				error: function(){
+					alert('查询失败');
+					hideShade();
+				}
+			});
+		}
+		
+	
  		function choseOrderType(obj){
  			$("#span_orderType").html($(obj).text());
  			if($(obj).text() == '堂食'){
@@ -210,6 +289,8 @@
     				if (data.status == 0) {
     					$(obj).removeAttr("disabled");
     					$("#btn_close").click();
+    					
+    					loadCurrOrder();
     				} else {
     					alert('下单失败');
     					$(obj).removeAttr("disabled");
@@ -221,10 +302,38 @@
     			}
     		});
  		}
+ 		
+ 		function loadCurrOrder(){
+ 			$.ajax({
+    			url: '<%=request.getContextPath()%>/order/currList.do',
+    			async: true,
+    			cache: false,
+    			type: 'get',
+    			success: function(data){
+    				if (data.status == 0) {
+    					$('#tb_curr_order').find('tbody').empty();
+    					
+    					var content = '';
+    					$.each(data.data, function(index, value){
+    						content += '<tr><td>' + value.id + '</td><td>' + value.createTimeStr + '</td><td>' + (value.deskNum == null?'':value.deskNum) + '</td><td>' + value.orderType + '</td><td>'+value.statusStr+'</td><td>'+value.remarks+'</td><td></td>';
+    					});
+    					$('#tb_curr_order').find('tbody').append(content);
+    				} else {
+    					alert('获取当前订单失败');
+    				}
+    			},
+    			error: function(){
+    				alert('获取当前订单失败');
+    			}
+    		});
+ 		}
  	
     	$(document).ready(function(){
     	 	$("#li_order").addClass("active");
     	 	$("#li_order").siblings().removeClass("active");
+    	 	
+    	 	loadCurrOrder();
+    	 	loadHisData();
     	 	
     	 	$("#btn_add").bind('click',function(){
     	 		showShade();
