@@ -76,12 +76,16 @@
 								</div>
 
 								<div class="input-group" id="div_product"></div>
+			 					<div class="form-group">
+           							<label for="message-text" class="control-label">备注信息</label>
+           							<textarea class="form-control" id="message-text"></textarea>
+         						</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default"
 									data-dismiss="modal" id="btn_close">关闭</button>
 								<button type="button" class="btn btn-primary"
-									onclick="saveProduct(this)">保存</button>
+									onclick="saveOrder(this)">保存</button>
 							</div>
 						</div>
 					</div>
@@ -142,9 +146,9 @@
  				$.each(products, function(index2, product){
  					if(product.categoryId == category.id){
  						if(index++ % 2 == 0){
- 							productInfo += '<td><div style="float: left;">' + product.name + '(' + product.price + '元)</div><div style="float: right;"><input type="text" class="spinner" /></div></td></tr>';
+ 							productInfo += '<td><div style="float: left;">' + product.name + '(' + product.price + '元)</div><div style="float: right;"><input type="text" class="spinner" id="' + product.id + '" /></div></td></tr>';
  						}else{
- 							productInfo += '<tr><td><div style="float: left;">' + product.name + '(' + product.price + '元)</div><div style="float: right;"><input type="text" class="spinner" /></div></td>';
+ 							productInfo += '<tr><td><div style="float: left;">' + product.name + '(' + product.price + '元)</div><div style="float: right;"><input type="text" class="spinner" id="' + product.id + '" /></div></td>';
  						}
  					}
  				});
@@ -167,6 +171,56 @@
  			$('.spinner').spinner();
  			hideShade();
  		}
+ 		
+ 		function saveOrder(obj){
+ 			$(obj).attr("disabled","disabled");
+ 			var orderType = $("#span_orderType").html();
+ 			if('' == orderType || '&nbsp;' == orderType){
+ 				alert('请选择订单类型');
+ 				return false;
+ 			}
+ 			
+ 			var postData = {};
+ 			var deskNum = $("#span_deskNum").html();
+ 			if('堂食' == orderType){
+ 				if('' == deskNum || '&nbsp;' == deskNum){
+ 	 				alert('请选择桌号');
+ 	 				return false;
+ 	 			}
+ 				postData.deskNum = deskNum;
+ 			}
+ 			
+ 			var remarks = $("#message-text").val();
+ 			var detail = [];
+ 			$('input.spinner').each(function(){
+ 				detail.push({'productId': $(this).attr('id'), 'productNum': $(this).val()});
+ 			});
+ 			
+ 			postData.orderType = orderType;
+ 			postData.remarks = remarks;
+ 			postData.detail = JSON.stringify(detail);
+ 			
+ 			$.ajax({
+    			url: '<%=request.getContextPath()%>/order/add.do',
+    			async: false,
+    			cache: false,
+    			type: 'post',
+    			data: postData,
+    			success: function(data){
+    				if (data.status == 0) {
+    					$(obj).removeAttr("disabled");
+    					$("#btn_close").click();
+    				} else {
+    					alert('下单失败');
+    					$(obj).removeAttr("disabled");
+    				}
+    			},
+    			error: function(){
+    				alert('下单失败');
+    				$(obj).removeAttr("disabled");
+    			}
+    		});
+ 		}
  	
     	$(document).ready(function(){
     	 	$("#li_order").addClass("active");
@@ -177,6 +231,7 @@
     	 		
     	 		$("#span_orderType").html('&nbsp;');
     	 		$("#span_deskNum").html('&nbsp;');
+    	 		$("#message-text").val('');
     	 		$("#div_deskNum").hide();
     	 		
     	 		$.ajax({
@@ -215,8 +270,6 @@
         			}
         		});
     	 	});
-    	 	
-    	 	$('.spinner').spinner();
     	});
     </script>
 </body>

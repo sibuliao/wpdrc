@@ -14,7 +14,7 @@
 ;(function ($) {
   $.fn.spinner = function (opts) {
     return this.each(function () {
-      var defaults = {value:1, min:0}
+      var defaults = {value:0, min:0}
       var options = $.extend(defaults, opts)
       var keyCodes = {up:38, down:40}
       var container = $('<div></div>')
@@ -71,7 +71,7 @@
 
       function getValue(field) {
         field = field || textField;
-        return parseInt(field.val() || 0, 10)
+        return parseFloat(field.val() || 0, 10)
       }
     })
   }
