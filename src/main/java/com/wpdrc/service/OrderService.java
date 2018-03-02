@@ -5,11 +5,17 @@ import java.util.List;
 import com.wpdrc.pojo.Order;
 
 public interface OrderService {
-	void add(Order order);
+    void add(Order order);
+    
+    void update(Order order);
 
-	List<Order> currList();
+    List<Order> currList();
 
-	List<Order> select(Integer currPage, Integer pageSize);
-	
-	int count();
+    List<Order> select(Integer currPage, Integer pageSize);
+
+    int count();
+
+    Order detail(Integer id);
+
+    void del(Integer id);
 }

@@ -12,4 +12,12 @@
 			(#{item.orderId}, #{item.productId},#{item.productNum})
 		</foreach>
 	</insert>
+	
+	<select id="selectByOrderId" parameterType="int" resultType="com.wpdrc.pojo.OrderDetail">
+		select d.product_id, d.product_num, p.name productName, p.price productPrice from tb_order_detail d left join tb_product p on d.product_id = p.id  where d.order_id = #{orderId}
+	</select>
+	
+	<update id="delByOrderId" parameterType="int">
+		delete from tb_order_detail where order_id = #{orderId}
+	</update>
 </mapper>

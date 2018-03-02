@@ -2,88 +2,98 @@ package com.wpdrc.pojo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.wpdrc.enums.OrderStatus;
 
 public class Order {
-	private Integer id;
-	private String orderType;
-	private Integer deskNum;
-	private String remarks;
-	private String detail;
-	private Integer status;
-	private String statusStr;
-	private Date createTime;
-	private String createTimeStr;
+    private Integer id;
+    private String orderType;
+    private Integer deskNum;
+    private String remarks;
+    private String detail;
+    private Integer status;
+    private String statusStr;
+    private Date createTime;
+    private String createTimeStr;
+    private List<OrderDetail> detailList;
 
-	public Integer getId() {
-		return id;
-	}
+    public List<OrderDetail> getDetailList() {
+        return detailList;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setDetailList(List<OrderDetail> detailList) {
+        this.detailList = detailList;
+    }
 
-	public String getStatusStr() {
-		return OrderStatus.getDescByCode(this.status);
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Date getCreateTime() {
-		return createTime;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public String getStatusStr() {
+        return OrderStatus.getDescByCode(this.status);
+    }
 
-	public String getCreateTimeStr() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return sdf.format(this.createTime);
-	}
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public Integer getStatus() {
+        return status;
+    }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    public String getCreateTimeStr() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(this.createTime);
+    }
 
-	public String getOrderType() {
-		return orderType;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-	public void setOrderType(String orderType) {
-		this.orderType = orderType;
-	}
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-	public Integer getDeskNum() {
-		return deskNum;
-	}
+    public String getOrderType() {
+        return orderType;
+    }
 
-	public void setDeskNum(Integer deskNum) {
-		this.deskNum = deskNum;
-	}
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
 
-	public String getRemarks() {
-		return remarks;
-	}
+    public Integer getDeskNum() {
+        return deskNum;
+    }
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
+    public void setDeskNum(Integer deskNum) {
+        this.deskNum = deskNum;
+    }
 
-	public String getDetail() {
-		return detail;
-	}
+    public String getRemarks() {
+        return remarks;
+    }
 
-	public void setDetail(String detail) {
-		this.detail = detail;
-	}
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 
-	@Override
-	public String toString() {
-		return "Order [orderType=" + orderType + ", deskNum=" + deskNum + ", remarks=" + remarks + ", detail=" + detail
-				+ "]";
-	}
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    @Override
+    public String toString() {
+        return "Order [orderType=" + orderType + ", deskNum=" + deskNum + ", remarks=" + remarks + ", detail=" + detail
+                + "]";
+    }
 }

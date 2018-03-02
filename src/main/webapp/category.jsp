@@ -82,141 +82,157 @@
 	</div>
 	<%@ include file="footer.jsp"%>
 	<script>
- 		function saveCategory(obj){
- 			$(obj).attr("disabled","disabled");
+		function saveCategory(obj) {
+			$(obj).attr("disabled", "disabled");
 
- 			var name = $("#input_name").val();
- 			$.ajax({
-    			url: '<%=request.getContextPath()%>/category/add.do',
-    			async: false,
-    			cache: false,
-    			type: 'post',
-    			data: {'name': name},
-    			success: function(data){
-    				if (data.status == 0) {
-    					$(obj).removeAttr("disabled");
-    					$('#btn_close').click();
-    					reloadData();
-    				} else {
-    					alert(data.msg);
-    					$(obj).removeAttr("disabled");
-    				}
-    			},
-    			error: function(){
-    				alert('添加失败');
-    				$(obj).removeAttr("disabled");
-    			}
-    		});
- 		}
- 	
- 		function modifyCategory(categoryId){
- 			showShade();
- 			$("#modify_input_name").val('');
- 			$("#hidden_id").val(categoryId);
- 			
+			var name = $("#input_name").val();
 			$.ajax({
-    			url: '<%=request.getContextPath()%>/category/find.do?id=' + categoryId,
-    			async: true,
-    			cache: false,
-    			type: 'get',
-    			success: function(data){
-    				if (data.status == 0) {
-    					hideShade();
-						$("#btn_modify").click();
-						$("#modify_input_name").val(data.data.name);
-    				} else {
-    					alert(data.msg);
-    					hideShade();
-    				}
-    			},
-    			error: function(){
-    				alert('信息获取失败');
-    				hideShade();
-    			}
-    		});
- 		}
- 		
- 		function updateCategory(obj){
- 			$(obj).attr("disabled","disabled");
+				url : contextPath + '/category/add.do',
+				async : false,
+				cache : false,
+				type : 'post',
+				data : {
+					'name' : name
+				},
+				success : function(data) {
+					if (data.status == 0) {
+						$(obj).removeAttr("disabled");
+						$('#btn_close').click();
+						reloadData();
+					} else {
+						alert(data.msg);
+						$(obj).removeAttr("disabled");
+					}
+				},
+				error : function() {
+					alert('添加失败');
+					$(obj).removeAttr("disabled");
+				}
+			});
+		}
 
- 			var name = $("#modify_input_name").val();
- 			var categoryId = $("#hidden_id").val();
- 			$.ajax({
-    			url: '<%=request.getContextPath()%>/category/update.do',
-    			async: false,
-    			cache: false,
-    			type: 'post',
-    			data: {'name': name, 'id': categoryId},
-    			success: function(data){
-    				if (data.status == 0) {
-    					$(obj).removeAttr("disabled");
-    					$('#modify_btn_close').click();
-    					reloadData();
-    				} else {
-    					alert(data.msg);
-    					$(obj).removeAttr("disabled");
-    				}
-    			},
-    			error: function(){
-    				alert('修改失败');
-    				$(obj).removeAttr("disabled");
-    			}
-    		});
- 		}
- 		
- 		function delCategory(categoryId){
- 			if(confirm('确定删除?')){
- 				$.ajax({
- 	    			url: '<%=request.getContextPath()%>/category/delCategory.do?id=' + categoryId,
- 	    			async: true,
- 	    			cache: false,
- 	    			type: 'post',
- 	    			success: function(data){
- 	    				if (data.status == 0) {
- 	    					reloadData();
- 	    				} else {
- 	    					alert(data.msg);
- 	    				}
- 	    			},
- 	    			error: function(){
- 	    				alert('删除失败');
- 	    			}
- 	    		});
- 			}
- 		}
- 		
- 		function reloadData(){
- 			$("#tb_category").find('tbody').find('tr').remove();
- 			loadData();
- 		}
- 	
- 		function loadData(){
- 			$.ajax({
-    			url: '<%=request.getContextPath()%>/category/list.do',
-    			async: true,
-    			cache: false,
-    			type: 'get',
-    			success: function(data){
-    				if (data.status == 0) {
-    					$.each(data.data, function(index, value){
-    						$("#tb_category").append('<tr><td>' + value.name + '</td><td><a href=\'#\' onclick=\'modifyCategory(' + value.id + ')\'>修改</a>&nbsp;<a href=\'#\' onclick=\'delCategory(' + value.id + ')\'>删除</a></td></tr>');
-    					});
-    				} else {
-    					alert('获取失败');
-    				}
-    			},
-    			error: function(){
-    				alert('获取失败');
-    			}
-    		});
- 		}
- 	
-    	$(document).ready(function(){
-    	 	$("#li_category").addClass("active");
-    	 	$("#li_category").siblings().removeClass("active");
-    	 	$("#btn_add").bind('click', function(){$("#input_name").val('');});
-    	 	loadData();
-    	});
-    </script>
+		function modifyCategory(categoryId) {
+			$("#modify_input_name").val('');
+			$("#hidden_id").val(categoryId);
+
+			$.ajax({
+				url : contextPath + '/category/find.do?id=' + categoryId,
+				async : false,
+				cache : false,
+				type : 'get',
+				success : function(data) {
+					if (data.status == 0) {
+						$("#modify_input_name").val(data.data.name);
+						$("#btn_modify").click();
+					} else {
+						alert(data.msg);
+					}
+				},
+				error : function() {
+					alert('信息获取失败');
+				}
+			});
+		}
+
+		function updateCategory(obj) {
+			$(obj).attr("disabled", "disabled");
+
+			var name = $("#modify_input_name").val();
+			var categoryId = $("#hidden_id").val();
+			$.ajax({
+				url : contextPath + '/category/update.do',
+				async : false,
+				cache : false,
+				type : 'post',
+				data : {
+					'name' : name,
+					'id' : categoryId
+				},
+				success : function(data) {
+					if (data.status == 0) {
+						$(obj).removeAttr("disabled");
+						$('#modify_btn_close').click();
+						reloadData();
+					} else {
+						alert(data.msg);
+						$(obj).removeAttr("disabled");
+					}
+				},
+				error : function() {
+					alert('修改失败');
+					$(obj).removeAttr("disabled");
+				}
+			});
+		}
+
+		function delCategory(categoryId) {
+			if (confirm('确定删除?')) {
+				$.ajax({
+					url : contextPath + '/category/delCategory.do?id='
+							+ categoryId,
+					async : true,
+					cache : false,
+					type : 'post',
+					success : function(data) {
+						if (data.status == 0) {
+							reloadData();
+						} else {
+							alert(data.msg);
+						}
+					},
+					error : function() {
+						alert('删除失败');
+					}
+				});
+			}
+		}
+
+		function reloadData() {
+			$("#tb_category").find('tbody').find('tr').remove();
+			loadData();
+		}
+
+		function loadData() {
+			$
+					.ajax({
+						url : contextPath + '/category/list.do',
+						async : true,
+						cache : false,
+						type : 'get',
+						success : function(data) {
+							if (data.status == 0) {
+								$
+										.each(
+												data.data,
+												function(index, value) {
+													$("#tb_category")
+															.append(
+																	'<tr><td>'
+																			+ value.name
+																			+ '</td><td><a href=\'#\' onclick=\'modifyCategory('
+																			+ value.id
+																			+ ')\'>修改</a>&nbsp;<a href=\'#\' onclick=\'delCategory('
+																			+ value.id
+																			+ ')\'>删除</a></td></tr>');
+												});
+							} else {
+								alert('获取失败');
+							}
+						},
+						error : function() {
+							alert('获取失败');
+						}
+					});
+		}
+
+		$(document).ready(function() {
+			$("#li_category").addClass("active");
+			$("#li_category").siblings().removeClass("active");
+			$("#btn_add").bind('click', function() {
+				$("#input_name").val('');
+			});
+			loadData();
+		});
+	</script>
 </body>
 </html>

@@ -29,26 +29,29 @@
     		var result = false;
     		$.ajax({
     			url: '<%=request.getContextPath()%>/login/login.do',
-    			data: {'account': account, 'password': password},
-    			async: false,
-    			cache: false,
-    			type: 'POST',
-    			success: function(data){
-    				if (data.status == 0) {
-    					result = true;
-    				} else {
-    					alert('用户名或密码错误');
-    					result = false;
-    				}
-    			},
-    			error: function(){
-    				alert('登陆失败');
-    				result = false;
-    			}
-    		});
-    		return result;
-    	}
-    </script>
+			data : {
+				'account' : account,
+				'password' : password
+			},
+			async : false,
+			cache : false,
+			type : 'POST',
+			success : function(data) {
+				if (data.status == 0) {
+					result = true;
+				} else {
+					alert('用户名或密码错误');
+					result = false;
+				}
+			},
+			error : function() {
+				alert('登陆失败');
+				result = false;
+			}
+		});
+		return result;
+	}
+</script>
 </head>
 <body>
 	<div class="container">

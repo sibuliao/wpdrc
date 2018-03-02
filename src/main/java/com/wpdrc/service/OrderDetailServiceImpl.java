@@ -12,12 +12,22 @@ import com.wpdrc.pojo.OrderDetail;
 @Service("OrderDetailServiceImpl")
 public class OrderDetailServiceImpl implements OrderDetailService {
 
-	@Autowired
-	private OrderDetailMapper orderDetailMapper;
+    @Autowired
+    private OrderDetailMapper orderDetailMapper;
 
-	@Transactional
-	public void batchInsert(List<OrderDetail> details) {
-		orderDetailMapper.batchInsert(details);
-	}
+    @Transactional
+    public void batchInsert(List<OrderDetail> details) {
+        orderDetailMapper.batchInsert(details);
+    }
+
+    public List<OrderDetail> selectByOrderId(Integer orderId) {
+        return orderDetailMapper.selectByOrderId(orderId);
+    }
+
+    @Transactional
+    public void delByOrderId(Integer orderId) {
+        orderDetailMapper.delByOrderId(orderId);
+    }
+
 
 }

@@ -17,4 +17,16 @@
 	<select id="count" resultType="int">
 		select count(1) from tb_order where status in (1,2,4)
 	</select>
+	
+	<select id="findById" parameterType="int" resultType="com.wpdrc.pojo.Order">
+		select id, create_time, desk_num, order_type, remarks, status from tb_order where id = #{id}
+	</select>
+	
+	<update id="del" parameterType="int">
+		update tb_order set status = 2 where id = #{id}
+	</update>
+	
+	<update id="update" parameterType="com.wpdrc.pojo.Order">
+		update tb_order set desk_num = #{deskNum}, order_type = #{orderType}, remarks = #{remarks} where id = #{id}
+	</update>
 </mapper>

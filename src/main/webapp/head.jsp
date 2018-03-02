@@ -8,30 +8,8 @@ th, td {
 	text-align: center;
 }
 </style>
-<!-- 遮罩层 -->
-<div class="modal fade" id="div_zhezhao" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-body">
-				加载中...
-				<button type="button" class="btn btn-default" data-dismiss="modal"
-					id="btn_close_zhezhao" style="display: none;"></button>
-			</div>
-		</div>
-	</div>
-</div>
 <script>
-	function showShade() {
-		$('#div_zhezhao').modal({
-			keyboard : false,
-			backdrop : 'static'
-		});
-	}
-
-	function hideShade() {
-		$('#div_zhezhao').modal('hide');
-	}
+	var contextPath = '<%=request.getContextPath()%>';
 </script>
 
 <div class="container">
