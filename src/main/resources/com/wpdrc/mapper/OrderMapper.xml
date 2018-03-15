@@ -27,6 +27,10 @@
 	</update>
 	
 	<update id="update" parameterType="com.wpdrc.pojo.Order">
-		update tb_order set desk_num = #{deskNum}, order_type = #{orderType}, remarks = #{remarks} where id = #{id}
+		update tb_order set desk_num = #{deskNum}, order_type = #{orderType}, remarks = #{remarks} 
+		<if test="status != null" >  
+        	, status = #{status}  
+      	</if>
+      	where id = #{id}
 	</update>
 </mapper>

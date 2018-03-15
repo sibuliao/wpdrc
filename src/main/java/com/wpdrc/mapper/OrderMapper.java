@@ -7,18 +7,18 @@ import com.wpdrc.pojo.Order;
 
 public interface OrderMapper {
 
-    void add(Order order);
+	void add(Order order);
 
-    void update(Order order);
+	void update(Order order);
 
-    List<Order> currList();
+	List<Order> currList();
 
-    List<Order> select(Pager pager);
+	List<Order> select(Pager pager);
 
-    int count();
+	int count();
 
-    Order findById(Integer id);
+	Order findById(Integer id);
 
-    void del(Integer id);
+	void del(Integer id);
 
 }

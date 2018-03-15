@@ -174,6 +174,10 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="payBtn"
+						onclick="pay(this)">买单</button>
+					<button type="button" class="btn btn-primary" id="pickupBtn"
+						onclick="pickup(this)">取货</button>
 				</div>
 			</div>
 		</div>
@@ -273,7 +277,7 @@
 															+ value.statusStr
 															+ '</td><td>'
 															+ value.remarks
-															+ '</td><td><a href="#" onclick="orderDetail('
+															+ '</td><td><a href="#" onclick="hisOrderDetail('
 															+ value.id
 															+ ')">查看</a></td>';
 												});
@@ -388,6 +392,12 @@
 			}
 		}
 
+		function hisOrderDetail(orderId) {
+			orderDetail(orderId);
+			$("#payBtn").hide();
+			$("#pickupBtn").hide();
+		}
+
 		function orderDetail(orderId) {
 			$.ajax({
 				url : contextPath + '/order/detail.do?id=' + orderId,
@@ -397,6 +407,13 @@
 				success : function(data) {
 					if (data.status == 0) {
 						initDetailInfo(data.data);
+						if (data.data.status == 0) {
+							$("#payBtn").show();
+							$("#pickupBtn").hide();
+						} else if (data.data.status == 3) {
+							$("#payBtn").hide();
+							$("#pickupBtn").show();
+						}
 						$("#modal_detail").modal();
 					} else {
 						alert('获取失败');
@@ -571,13 +588,13 @@
 																+ value.id
 																+ ')">编辑</a>&nbsp;<a href="#" onclick="delOrder('
 																+ value.id
-																+ ')">删除</a>&nbsp;<a href="#">买单</a>';
+																+ ')">删除</a>';
 													} else if (value.status == 3) {
 														operStr += '<a href="#" onclick="orderDetail('
 																+ value.id
 																+ ')">查看</a>&nbsp;<a href="#"  onclick="delOrder('
 																+ value.id
-																+ ')">删除</a>&nbsp;<a href="#">取货</a>';
+																+ ')">删除</a>';
 													}
 													content += '<tr><td>'
 															+ value.id
@@ -607,6 +624,68 @@
 					});
 		}
 
+		function pay(obj) {
+			$(obj).attr("disabled", "disabled");
+
+			$.ajax({
+				url : contextPath + '/order/pay.do',
+				async : false,
+				cache : false,
+				type : 'post',
+				data : {
+					"id" : $("#label_orderId").html()
+				},
+				success : function(data) {
+					if (data.status == 0) {
+						$(obj).removeAttr("disabled");
+						$("#modal_detail").modal('hide');
+
+						loadCurrOrder();
+						startPage = 1;
+						endPage = 10;
+						currPage = 1;
+						loadHisOrder();
+					} else {
+						alert(data.msg);
+					}
+				},
+				error : function() {
+					alert('买单失败');
+				}
+			});
+		}
+		
+		function pickup(obj) {
+			$(obj).attr("disabled", "disabled");
+
+			$.ajax({
+				url : contextPath + '/order/pickup.do',
+				async : false,
+				cache : false,
+				type : 'post',
+				data : {
+					"id" : $("#label_orderId").html()
+				},
+				success : function(data) {
+					if (data.status == 0) {
+						$(obj).removeAttr("disabled");
+						$("#modal_detail").modal('hide');
+
+						loadCurrOrder();
+						startPage = 1;
+						endPage = 10;
+						currPage = 1;
+						loadHisOrder();
+					} else {
+						alert(data.msg);
+					}
+				},
+				error : function() {
+					alert('取货失败');
+				}
+			});
+		}
+		
 		$(document)
 				.ready(
 						function() {
