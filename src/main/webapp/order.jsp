@@ -647,10 +647,12 @@
 						loadHisOrder();
 					} else {
 						alert(data.msg);
+						$(obj).removeAttr("disabled");
 					}
 				},
 				error : function() {
 					alert('买单失败');
+					$(obj).removeAttr("disabled");
 				}
 			});
 		}
@@ -678,10 +680,12 @@
 						loadHisOrder();
 					} else {
 						alert(data.msg);
+						$(obj).removeAttr("disabled");
 					}
 				},
 				error : function() {
 					alert('取货失败');
+					$(obj).removeAttr("disabled");
 				}
 			});
 		}
