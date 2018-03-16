@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wpdrc.mapper.HistoryOrderMapper">
+	<insert id="add" parameterType="com.wpdrc.pojo.HistoryOrder">
+		insert into tb_order_history(id, create_time, desk_num, order_type, remarks, status_str) values(#{id}, #{createTime}, #{deskNum}, #{orderType}, #{remarks}, #{statusStr})
+	</insert>
+	
+	<select id="select" resultType="com.wpdrc.pojo.HistoryOrder" parameterType="com.wpdrc.bo.Pager">
+		select id, create_time, desk_num, order_type, remarks, status_str from tb_order_history order by id desc limit #{begin}, #{end}
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(1) from tb_order_history
+	</select>
+	
+	<select id="findById" parameterType="int" resultType="com.wpdrc.pojo.HistoryOrder">
+		select id, create_time, desk_num, order_type, remarks, status_str from tb_order_history where id = #{id}
+	</select>
+</mapper>

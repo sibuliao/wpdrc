@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wpdrc.mapper.HistoryOrderDetailMapper">
+
+	<insert id="batchInsert" parameterType="java.util.List">
+		insert into tb_order_detail_history(id, order_id, product_num, product_name, product_price)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id}, #{item.orderId}, #{item.productNum}, #{item.productName}, #{item.productPrice})
+		</foreach>
+	</insert>
+	
+	<select id="selectByOrderId" parameterType="int" resultType="com.wpdrc.pojo.HistoryOrderDetail">
+		select order_id, product_num, product_name, product_price from tb_order_detail_history where order_id = #{orderId}
+	</select>
+</mapper>

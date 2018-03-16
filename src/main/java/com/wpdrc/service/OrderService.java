@@ -11,10 +11,6 @@ public interface OrderService {
 
 	List<Order> currList();
 
-	List<Order> select(Integer currPage, Integer pageSize);
-
-	int count();
-
 	Order detail(Integer id);
 
 	void del(Integer id);

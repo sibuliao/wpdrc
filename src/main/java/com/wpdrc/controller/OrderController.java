@@ -11,14 +11,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wpdrc.bo.JsonResult;
 import com.wpdrc.pojo.Order;
+import com.wpdrc.service.HistoryOrderService;
 import com.wpdrc.service.OrderService;
 
 @Controller
 @RequestMapping("/order")
 public class OrderController {
 
-	@Autowired
-	private OrderService orderService;
+    @Autowired
+    private OrderService orderService;
+    
+    @Autowired
+    private HistoryOrderService historyOrderService;
 
 	@RequestMapping("/add")
 	@ResponseBody
@@ -64,17 +68,23 @@ public class OrderController {
 	}
 
 	@RequestMapping("/detail")
-	@ResponseBody
-	public JsonResult detail(Integer id) {
-		return JsonResult.buildSuccessJsonResult(orderService.detail(id));
-	}
+    @ResponseBody
+    public JsonResult detail(Integer id) {
+        return JsonResult.buildSuccessJsonResult(orderService.detail(id));
+    }
+	
+	@RequestMapping("/historyDetail")
+    @ResponseBody
+    public JsonResult historyDetail(Integer id) {
+        return JsonResult.buildSuccessJsonResult(historyOrderService.detail(id));
+    }
 
 	@RequestMapping("/hisList")
 	@ResponseBody
 	public JsonResult hisList(Integer currPage, Integer pageSize) {
-		int total = orderService.count();
+		int total = historyOrderService.count();
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("data", orderService.select(currPage, pageSize));
+		data.put("data", historyOrderService.select(currPage, pageSize));
 		Integer totalPage = 0;
 		if (total % pageSize == 0) {
 			totalPage = total / pageSize;

@@ -393,7 +393,23 @@
 		}
 
 		function hisOrderDetail(orderId) {
-			orderDetail(orderId);
+			$.ajax({
+				url : contextPath + '/order/historyDetail.do?id=' + orderId,
+				async : false,
+				cache : false,
+				type : 'get',
+				success : function(data) {
+					if (data.status == 0) {
+						initDetailInfo(data.data);
+						$("#modal_detail").modal();
+					} else {
+						alert('获取失败');
+					}
+				},
+				error : function() {
+					alert('获取失败');
+				}
+			});
 			$("#payBtn").hide();
 			$("#pickupBtn").hide();
 		}

@@ -43,3 +43,22 @@ CREATE TABLE `tb_order_detail` (
   `product_num` float DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_order_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_type` varchar(2) DEFAULT NULL,
+  `desk_num` int(2) DEFAULT NULL,
+  `remarks` varchar(100) DEFAULT NULL,
+  `create_time` datetime,
+  `status_str` varchar(10),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_order_detail_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `product_num` float DEFAULT NULL,
+  `product_name` varchar(100) DEFAULT NULL,
+  `product_price` float DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
