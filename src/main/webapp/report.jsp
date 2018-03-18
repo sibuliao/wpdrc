@@ -103,16 +103,19 @@
 						type : 'get',
 						success : function(data) {
 							if (data.status == 0) {
-								$("#label_sales").html(
-										data.data.salesStatistics.sales);
-								$("#label_order_count").html(
-										data.data.salesStatistics.orderCount);
-								$("#label_tangshi_count")
-										.html(
-												data.data.salesStatistics.orderCountTangshi);
-								$("#label_dabao_count")
-										.html(
-												data.data.salesStatistics.orderCountDabao);
+								if (null != data.data.salesStatistics) {
+									$("#label_sales").html(
+											data.data.salesStatistics.sales);
+									$("#label_order_count")
+											.html(
+													data.data.salesStatistics.orderCount);
+									$("#label_tangshi_count")
+											.html(
+													data.data.salesStatistics.orderCountTangshi);
+									$("#label_dabao_count")
+											.html(
+													data.data.salesStatistics.orderCountDabao);
+								}
 
 								var names = [];
 								var values = [];
