@@ -62,3 +62,20 @@ CREATE TABLE `tb_order_detail_history` (
   `product_price` float DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_order_report_day` (
+  `day` date NOT NULL,
+  `sales` float DEFAULT NULL,
+  `order_count` int(11) DEFAULT NULL,
+  `order_count_tangshi` int(11) DEFAULT NULL,
+  `order_count_dabao` int(11) DEFAULT NULL,
+  PRIMARY KEY (`day`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_product_report_day` (
+  `day` date NOT NULL,
+  `product_name` varchar(100) NOT NULL,
+  `product_num` float DEFAULT NULL,
+  `sales` float DEFAULT NULL,
+  PRIMARY KEY (`day`,`product_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

@@ -1,4 +1,4 @@
-package com.wpdrc.bo;
+package com.wpdrc.vo;
 
 public class Pager {
 	private Integer begin;

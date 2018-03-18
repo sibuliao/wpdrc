@@ -2,9 +2,9 @@ package com.wpdrc.mapper;
 
 import java.util.List;
 
-import com.wpdrc.bo.Pager;
 import com.wpdrc.pojo.HistoryOrder;
 import com.wpdrc.pojo.Order;
+import com.wpdrc.vo.Pager;
 
 public interface HistoryOrderMapper {
 

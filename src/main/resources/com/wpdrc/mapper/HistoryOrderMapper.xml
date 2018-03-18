@@ -6,7 +6,7 @@
 		insert into tb_order_history(id, create_time, desk_num, order_type, remarks, status_str) values(#{id}, #{createTime}, #{deskNum}, #{orderType}, #{remarks}, #{statusStr})
 	</insert>
 	
-	<select id="select" resultType="com.wpdrc.pojo.HistoryOrder" parameterType="com.wpdrc.bo.Pager">
+	<select id="select" resultType="com.wpdrc.pojo.HistoryOrder" parameterType="com.wpdrc.vo.Pager">
 		select id, create_time, desk_num, order_type, remarks, status_str from tb_order_history order by id desc limit #{begin}, #{end}
 	</select>
 	

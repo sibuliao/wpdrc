@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.wpdrc.bo.Pager;
 import com.wpdrc.mapper.HistoryOrderMapper;
 import com.wpdrc.pojo.HistoryOrder;
 import com.wpdrc.pojo.Order;
+import com.wpdrc.vo.Pager;
 
 @Service("HistoryOrderServiceImpl")
 public class HistoryOrderServiceImpl implements HistoryOrderService {

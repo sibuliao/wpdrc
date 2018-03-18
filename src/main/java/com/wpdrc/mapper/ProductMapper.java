@@ -2,8 +2,8 @@ package com.wpdrc.mapper;
 
 import java.util.List;
 
-import com.wpdrc.bo.Pager;
 import com.wpdrc.pojo.Product;
+import com.wpdrc.vo.Pager;
 
 public interface ProductMapper {
 	List<Product> select(Pager pager);

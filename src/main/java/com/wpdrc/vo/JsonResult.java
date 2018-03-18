@@ -1,4 +1,4 @@
-package com.wpdrc.bo;
+package com.wpdrc.vo;
 
 public class JsonResult {
 	private int status;

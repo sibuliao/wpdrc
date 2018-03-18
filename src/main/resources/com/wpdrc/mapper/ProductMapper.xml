@@ -3,7 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.wpdrc.mapper.ProductMapper">
-	<select id="select" resultType="com.wpdrc.pojo.Product" parameterType="com.wpdrc.bo.Pager">
+	<select id="select" resultType="com.wpdrc.pojo.Product" parameterType="com.wpdrc.vo.Pager">
 		select a.id, a.name, a.price, a.category_id, b.name category_name from (select id, name, price, category_id from tb_product order by category_id, id asc limit #{begin}, #{end}) a left join tb_category b on a.category_id = b.id
 	</select>
 	

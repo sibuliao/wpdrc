@@ -74,10 +74,13 @@
 
 		<table class="table table-striped table-bordered"
 			style="margin-top: 5px" id="tb_category">
-			<tr>
-				<th>类别名称</th>
-				<th>操作</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>类别名称</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
 		</table>
 	</div>
 	<%@ include file="footer.jsp"%>

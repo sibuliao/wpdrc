@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.wpdrc.bo.JsonResult;
 import com.wpdrc.pojo.Product;
 import com.wpdrc.service.ProductService;
+import com.wpdrc.vo.JsonResult;
 
 @Controller
 @RequestMapping("/product")

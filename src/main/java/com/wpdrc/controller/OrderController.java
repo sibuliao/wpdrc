@@ -9,10 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.wpdrc.bo.JsonResult;
 import com.wpdrc.pojo.Order;
 import com.wpdrc.service.HistoryOrderService;
 import com.wpdrc.service.OrderService;
+import com.wpdrc.vo.JsonResult;
 
 @Controller
 @RequestMapping("/order")

@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.wpdrc.bo.Pager;
 import com.wpdrc.mapper.ProductMapper;
 import com.wpdrc.pojo.Product;
+import com.wpdrc.vo.Pager;
 
 @Service("productServiceImpl")
 public class ProductServiceImpl implements ProductService {
