@@ -29,13 +29,13 @@
 		<div class="panel panel-primary">
 			<div class="panel-heading">今日销售量Top5</div>
 			<div class="panel-body">
-				<div id="div_sales_num" style="width: 600px; height: 400px;"></div>
+				<div id="div_sales_num" style="width: 100%; height: 400px;"></div>
 			</div>
 		</div>
 		<div class="panel panel-primary">
 			<div class="panel-heading">今日销售额Top5</div>
 			<div class="panel-body">
-				<div id="div_sales_sum" style="width: 600px; height: 400px;"></div>
+				<div id="div_sales_sum" style="width: 100%; height: 400px;"></div>
 			</div>
 		</div>
 	</div>

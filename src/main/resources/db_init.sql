@@ -72,7 +72,7 @@ CREATE TABLE `tb_order_report_day` (
   PRIMARY KEY (`day`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tb_product_report_day` (
+CREATE TABLE `tb_order_detail_report_day` (
   `day` date NOT NULL,
   `product_name` varchar(100) NOT NULL,
   `product_num` float DEFAULT NULL,

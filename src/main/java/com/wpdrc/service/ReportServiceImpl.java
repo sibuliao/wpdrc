@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wpdrc.mapper.OrderReportDayMapper;
-import com.wpdrc.mapper.ProductReportDayMapper;
+import com.wpdrc.mapper.OrderDetailReportDayMapper;
 
 @Service("ReportServiceImpl")
 public class ReportServiceImpl implements ReportService {
@@ -16,7 +16,7 @@ public class ReportServiceImpl implements ReportService {
 	private OrderReportDayMapper orderReportDayMapper;
 
 	@Autowired
-	private ProductReportDayMapper productReportDayMapper;
+	private OrderDetailReportDayMapper orderDetailReportDayMapper;
 
 	public Map<String, Object> getTodayData() {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -26,8 +26,8 @@ public class ReportServiceImpl implements ReportService {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("day", day);
 		param.put("topNum", 5);
-		result.put("salesNumTop", productReportDayMapper.selectSalesNumTop(param));
-		result.put("salesSumTop", productReportDayMapper.selectSalesSumTop(param));
+		result.put("salesNumTop", orderDetailReportDayMapper.selectSalesNumTop(param));
+		result.put("salesSumTop", orderDetailReportDayMapper.selectSalesSumTop(param));
 		return result;
 	}
 

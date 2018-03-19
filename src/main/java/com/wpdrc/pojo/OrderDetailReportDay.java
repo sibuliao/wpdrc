@@ -2,7 +2,7 @@ package com.wpdrc.pojo;
 
 import java.util.Date;
 
-public class ProductReportDay {
+public class OrderDetailReportDay {
 	private Date day;
 	private String productName;
 	private Float productNum;
