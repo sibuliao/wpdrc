@@ -45,7 +45,7 @@ def getStatisticsDay():
 
 def initDb():
     global DB
-    DB = MySQLdb.connect("localhost","root","123456","wpdrc")
+    DB = MySQLdb.connect("localhost","root","123456","wpdrc",charset="utf8")
     global CURSOR
     CURSOR = DB.cursor()
 
@@ -55,18 +55,20 @@ def statistics(day):
 
     #统计总体销售信息
     CURSOR.execute('select count(1), sum(if(o.order_type = \'堂食\', 1, 0)), sum(if(o.order_type = \'打包\', 1, 0)), sum((select sum(product_price * product_num) from tb_order_detail_history where order_id = o.id))' + \
-    ' from tb_order_history o where DATE_FORMAT(o.create_time, \'%Y-%m-%d\') = \'' + day + '\' and o.create_time <= \'' + CURR_TIME + '\'')
+    ' from tb_order_history o where (o.status_str = \'已买单\' or o.status_str = \'已付款已取货\') and DATE_FORMAT(o.create_time, \'%Y-%m-%d\') = \'' + day + '\' and o.create_time <= \'' + CURR_TIME + '\'')
     data = CURSOR.fetchone()
-    CURSOR.execute('delete from tb_order_report_day where day = \'' + day + '\'')
-    CURSOR.execute('insert into tb_order_report_day values(' + '\'' + day + '\',' + str(data[3]) + ',' + str(data[0]) + ',' + str(data[1]) + ',' + str(data[2]) + ')')
+    if data is not None:
+    	CURSOR.execute('delete from tb_order_report_day where day = \'' + day + '\'')
+    	CURSOR.execute('insert into tb_order_report_day values(' + '\'' + day + '\',' + ('0' if data[3] is None else str(data[3])) + ',' + str(data[0]) + ',' + ('0' if data[1] is None else str(data[1])) + ',' + ('0' if data[2] is None else str(data[2])) + ')')
 
     #统计商品销售信息
-    CURSOR.execute('select d.product_name, sum(d.product_num), sum(d.product_price * d.product_num) from tb_order_history o left outer join tb_order_detail_history d on o.id = d.order_id where DATE_FORMAT(o.create_time, \'%Y-%m-%d\') = \'' + day + '\' and o.create_time <= \'' + CURR_TIME + '\'' + \
+    CURSOR.execute('select d.product_name, sum(d.product_num), sum(d.product_price * d.product_num) from tb_order_history o left outer join tb_order_detail_history d on o.id = d.order_id where (o.status_str = \'已买单\' or o.status_str = \'已付款已取货\') and DATE_FORMAT(o.create_time, \'%Y-%m-%d\') = \'' + day + '\' and o.create_time <= \'' + CURR_TIME + '\'' + \
     ' group by d.product_name')
     data = CURSOR.fetchall()
-    for d in data:
-        CURSOR.execute('delete from tb_order_detail_report_day where day = \'' + day + '\'' + ' and product_name = \'' + d[0] + '\'')
-        CURSOR.execute('insert into tb_order_detail_report_day values(\'' + day + '\',\'' + d[0] + '\',' + str(d[1]) + ',' + str(d[2]) + ')')
+    if data is not None:
+    	for d in data:
+        	CURSOR.execute('delete from tb_order_detail_report_day where day = \'' + day + '\'' + ' and product_name = \'' + d[0] + '\'')
+        	CURSOR.execute('insert into tb_order_detail_report_day values(\'' + day + '\',\'' + d[0] + '\',' + str(d[1]) + ',' + str(d[2]) + ')')
     DB.commit()
 
 if __name__ == '__main__':
@@ -78,6 +80,14 @@ if __name__ == '__main__':
             statistics(day)
 
         LOGGER.info('order statistics success=====')
+        if len(days) == 2:
+        	LOGGER.info('write day file begin=====')    
+        	day_file = open('day', 'w')
+        	day_file.write(days[1])
+        	day_file.flush()
+        	day_file.close()
+        	LOGGER.info('write day file success=====')
+        	
         sys.exit(0)
     except Exception as e:
         LOGGER.error(e)
