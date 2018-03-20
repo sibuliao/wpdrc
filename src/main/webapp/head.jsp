@@ -24,7 +24,9 @@ th, td {
 				<li id="li_category"><a
 					href="<%=request.getContextPath()%>/category.jsp">类别管理</a></li>
 				<li id="li_report"><a
-					href="<%=request.getContextPath()%>/report.jsp">报表</a></li>
+					href="<%=request.getContextPath()%>/report.jsp">今日报表</a></li>
+				<li id="li_his_report"><a
+					href="<%=request.getContextPath()%>/history_report.jsp">历史报表</a></li>
 				<li><a href="<%=request.getContextPath()%>/login/logout.do">退出</a></li>
 			</ul>
 		</nav>
